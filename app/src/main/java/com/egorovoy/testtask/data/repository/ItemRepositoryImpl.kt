@@ -7,8 +7,10 @@ import com.egorovoy.testtask.domain.repository.ItemRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class ItemRepositoryImpl(private val itemDao: ItemDao, private val mapper: Mapper) :
-    ItemRepository {
+class ItemRepositoryImpl(
+    private val itemDao: ItemDao,
+    private val mapper: Mapper
+) : ItemRepository {
 
     override suspend fun insertItem(item: Item) {
         itemDao.insertItem(mapper.map(item))

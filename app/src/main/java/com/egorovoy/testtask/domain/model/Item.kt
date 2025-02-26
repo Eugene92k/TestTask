@@ -1,9 +1,9 @@
 package com.egorovoy.testtask.domain.model
 
-data class Item(
+data class Item (
     val id: Int,
     val name: String,
-    val time: Int,
-    val tags: String,
-    val amount: Int
+    val time: Long,
+    val tags: List<String>,
+    val amount: Int,
 )
