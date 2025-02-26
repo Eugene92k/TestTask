@@ -100,9 +100,7 @@ fun ItemList(viewModel: HomeViewModel = hiltViewModel()) {
             ) {
                 items(items) { item ->
                     ItemCard(
-                        itemName = item.name,
-                        itemAvailability = item.amount.toString(),
-                        itemDateAdded = formatDate(item.time),
+                        item = item,
                         tags = item.tags,
                         itemId = item.id,
                         onAmountChanged = viewModel::updateAmount,

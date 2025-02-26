@@ -32,9 +32,7 @@ import com.egorovoy.testtask.domain.model.Item
 
 @Composable
 fun ItemCard(
-    itemName: String,
-    itemAvailability: String,
-    itemDateAdded: String,
+    item: Item,
     itemId: Int,
     tags: List<String> = emptyList(),
     onAmountChanged: (Int, Int) -> Unit,
@@ -58,7 +56,7 @@ fun ItemCard(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
-                    text = itemName,
+                    text = item.name,
                     style = MaterialTheme.typography.headlineSmall
                 )
 
@@ -113,7 +111,7 @@ fun ItemCard(
                         style = MaterialTheme.typography.bodySmall
                     )
                     Text(
-                        text = itemAvailability,
+                        text = item.amount.toString(),
                         style = MaterialTheme.typography.bodyLarge
                     )
                 }
@@ -124,7 +122,7 @@ fun ItemCard(
                         modifier = Modifier.align(Alignment.End)
                     )
                     Text(
-                        text = itemDateAdded,
+                        text = formatDate(item.time),
                         style = MaterialTheme.typography.bodyLarge,
                         modifier = Modifier.align(Alignment.End)
                     )
@@ -136,7 +134,7 @@ fun ItemCard(
 
     if (isEditDialogOpen) {
         EditAmountDialog(
-            currentAmount = itemAvailability.toIntOrNull() ?: 0,
+            currentAmount = item.amount,
             itemId = itemId,
             onAmountChanged = onAmountChanged,
             onDismiss = { isEditDialogOpen = false }
@@ -149,8 +147,8 @@ fun ItemCard(
                 onDeleteItem(
                     Item(
                         id = itemId,
-                        name = itemName,
-                        amount = itemAvailability.toIntOrNull() ?: 0,
+                        name = item.name,
+                        amount = item.amount,
                         time = 0,
                         tags = tags
                     )

@@ -56,7 +56,7 @@ fun EditAmountDialog(
         },
         confirmButton = {
             TextButton(onClick = {
-                onAmountChanged(amount, itemId)
+                onAmountChanged(itemId, amount)
                 onDismiss()
             }) {
                 Text(stringResource(R.string.edit_amount_dialog_button_ok))
