@@ -1,4 +1,4 @@
-package com.egorovoy.testtask.presentation
+package com.egorovoy.testtask.presentation.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
