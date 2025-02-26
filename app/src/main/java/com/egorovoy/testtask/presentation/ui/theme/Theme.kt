@@ -1,4 +1,4 @@
-package com.egorovoy.testtask.ui.theme
+package com.egorovoy.testtask.presentation.ui.theme
 
 import android.app.Activity
 import android.os.Build
