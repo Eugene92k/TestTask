@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId = "com.egorovoy.testtask"
-        minSdk = 23
+        minSdk = 25
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -58,10 +58,12 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.firebase.crashlytics.buildtools)
+    implementation(libs.androidx.compose.material)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.androidx.activity.compose)
     implementation(libs.hilt.navigation.compose)
+    implementation(libs.material3)
 
     //viewmodel, livedata
     implementation(libs.lifecycle.viewmodel.ktx)
@@ -84,4 +86,5 @@ dependencies {
     implementation(libs.gson)
 
     implementation(libs.androidx.core.ktx)
+
 }

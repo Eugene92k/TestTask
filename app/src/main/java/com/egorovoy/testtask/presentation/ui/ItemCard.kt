@@ -1,5 +1,7 @@
 package com.egorovoy.testtask.presentation.ui
 
+import TagRow
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -7,11 +9,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -24,43 +24,82 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.egorovoy.testtask.R
 import com.egorovoy.testtask.domain.model.Item
 
 @Composable
 fun ItemCard(
-    itemName: String,
-    itemAvailability: String,
-    itemDateAdded: String,
+    item: Item,
     itemId: Int,
     tags: List<String> = emptyList(),
     onAmountChanged: (Int, Int) -> Unit,
     onDeleteItem: (Item) -> Unit
 ) {
     var isEditDialogOpen by remember { mutableStateOf(false) }
+    var isDeleteDialogOpen by remember { mutableStateOf(false) }
 
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
+            .background(Color.White)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
+
+            //title
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween,
+                horizontalArrangement = Arrangement.Start,
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
-                    text = itemName,
+                    text = item.name,
                     style = MaterialTheme.typography.headlineSmall
                 )
+
+                //buttons
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.End,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 16.dp)
+                ) {
+                    IconButton(
+                        onClick = {
+                            isEditDialogOpen = true
+                        }
+                    ) {
+                        Icon(imageVector = Icons.Filled.Edit,
+                            contentDescription = stringResource(R.string.item_card_edit_button),
+                            tint = MaterialTheme.colorScheme.surfaceTint)
+                    }
+                    IconButton(
+                        onClick = {
+                            isDeleteDialogOpen = true
+                        }
+                    ) {
+                        Icon(imageVector = Icons.Filled.Delete,
+                            contentDescription = stringResource(R.string.item_card_delete_button),
+                            tint = MaterialTheme.colorScheme.error)
+                    }
+                }
             }
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = "texttext",
-                style = MaterialTheme.typography.bodyMedium
-            )
-            Spacer(modifier = Modifier.height(8.dp))
+
+            //tags chips
+            if (tags.isNotEmpty()) {
+                Spacer(modifier = Modifier.height(8.dp))
+                Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                    TagRow(tags = tags)
+                }
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+
+
+            //на складе, дата добавления
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -68,71 +107,57 @@ fun ItemCard(
             ) {
                 Column {
                     Text(
-                        text = "На складе",
+                        text = stringResource(R.string.item_card_availability_label),
                         style = MaterialTheme.typography.bodySmall
                     )
                     Text(
-                        text = itemAvailability,
+                        text = item.amount.toString(),
                         style = MaterialTheme.typography.bodyLarge
                     )
                 }
                 Column(horizontalAlignment = Alignment.End) {
                     Text(
-                        text = "Дата добавления",
+                        text = stringResource(R.string.item_card_date_added_label),
                         style = MaterialTheme.typography.bodySmall,
                         modifier = Modifier.align(Alignment.End)
                     )
                     Text(
-                        text = itemDateAdded,
+                        text = formatDate(item.time),
                         style = MaterialTheme.typography.bodyLarge,
                         modifier = Modifier.align(Alignment.End)
                     )
                 }
             }
-            if (tags.isNotEmpty()) {
-                Spacer(modifier = Modifier.height(8.dp))
-                Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-                    tags.forEach { tag ->
-                        // TODO:
-                    }
-                }
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Button(
-                    onClick = { isEditDialogOpen = true }
-                ) {
-                    Icon(imageVector = Icons.Filled.Edit, contentDescription = "Edit")
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text("Редактировать")
-                }
-                IconButton(
-                    onClick = {
-                        onDeleteItem(
-                            Item(
-                                id = itemId,
-                                name = itemName,
-                                amount = itemAvailability.toIntOrNull() ?: 0,
-                                time = 0,
-                                tags = tags
-                            )
-                        )
-                    }
-                ) {
-                    Icon(imageVector = Icons.Filled.Delete, contentDescription = "Delete", tint = MaterialTheme.colorScheme.error)
-                }
-            }
+
         }
     }
+
     if (isEditDialogOpen) {
         EditAmountDialog(
-            currentAmount = itemAvailability.toIntOrNull() ?: 0,
+            currentAmount = item.amount,
             itemId = itemId,
             onAmountChanged = onAmountChanged,
             onDismiss = { isEditDialogOpen = false }
+        )
+    }
+
+    if (isDeleteDialogOpen) {
+        DeleteItemConfirmationDialog(
+            onConfirm = {
+                onDeleteItem(
+                    Item(
+                        id = itemId,
+                        name = item.name,
+                        amount = item.amount,
+                        time = 0,
+                        tags = tags
+                    )
+                )
+                isDeleteDialogOpen = false
+            },
+            onDismiss = {
+                isDeleteDialogOpen = false
+            }
         )
     }
 }

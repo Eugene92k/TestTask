@@ -16,8 +16,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.egorovoy.testtask.R
 
 @Composable
 fun EditAmountDialog(
@@ -30,7 +32,7 @@ fun EditAmountDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Количество товара") },
+        title = { Text(stringResource(R.string.edit_amount_dialog_title)) },
         text = {
             Column {
                 Row(
@@ -39,7 +41,7 @@ fun EditAmountDialog(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     IconButton(onClick = { amount-- }) {
-                        Text("-")
+                        Text(stringResource(R.string.edit_amount_dialog_button_decrease))
                     }
                     Text(
                         text = amount.toString(),
@@ -47,25 +49,23 @@ fun EditAmountDialog(
                         textAlign = TextAlign.Center
                     )
                     IconButton(onClick = { amount++ }) {
-                        Text("+")
+                        Text(stringResource(R.string.edit_amount_dialog_button_increase))
                     }
                 }
             }
         },
         confirmButton = {
             TextButton(onClick = {
-                onAmountChanged(amount, itemId)
+                onAmountChanged(itemId, amount)
                 onDismiss()
             }) {
-                Text("OK")
+                Text(stringResource(R.string.edit_amount_dialog_button_ok))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Отмена")
+                Text(stringResource(R.string.edit_amount_dialog_button_cancel))
             }
         }
     )
 }
-
-
