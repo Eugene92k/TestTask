@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">Test task</string>
+    <string name="delete_dialog_warning_icon">Предупреждение</string>
+    <string name="delete_dialog_title">Удаление товара</string>
+    <string name="delete_dialog_message">Вы действительно хотите удалить выбранный товар?</string>
+    <string name="delete_dialog_button_no">Нет</string>
+    <string name="delete_dialog_button_yes">Да</string>
+
+    <string name="edit_amount_dialog_title">Количество товара</string>
+    <string name="edit_amount_dialog_button_decrease">-</string>
+    <string name="edit_amount_dialog_button_increase">+</string>
+    <string name="edit_amount_dialog_button_ok">OK</string>
+    <string name="edit_amount_dialog_button_cancel">Отмена</string>
+
+    <string name="item_list_top_bar_title">Список товаров</string>
+    <string name="item_list_search_icon">Поиск</string>
+    <string name="item_list_search_hint">Поиск товаров</string>
+
+    <string name="item_card_edit_button">Редактировать</string>
+    <string name="item_card_delete_button">Удалить</string>
+    <string name="item_card_availability_label">На складе</string>
+    <string name="item_card_date_added_label">Дата добавления</string>
 </resources>

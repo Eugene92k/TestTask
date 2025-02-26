@@ -25,7 +25,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.egorovoy.testtask.R
 import com.egorovoy.testtask.domain.model.Item
 
 @Composable
@@ -39,6 +41,7 @@ fun ItemCard(
     onDeleteItem: (Item) -> Unit
 ) {
     var isEditDialogOpen by remember { mutableStateOf(false) }
+    var isDeleteDialogOpen by remember { mutableStateOf(false) }
 
     Card(
         modifier = Modifier
@@ -59,7 +62,7 @@ fun ItemCard(
                     style = MaterialTheme.typography.headlineSmall
                 )
 
-                    //buttons
+                //buttons
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.End,
@@ -73,24 +76,16 @@ fun ItemCard(
                         }
                     ) {
                         Icon(imageVector = Icons.Filled.Edit,
-                            contentDescription = "Edit",
+                            contentDescription = stringResource(R.string.item_card_edit_button),
                             tint = MaterialTheme.colorScheme.surfaceTint)
                     }
                     IconButton(
                         onClick = {
-                            onDeleteItem(
-                                Item(
-                                    id = itemId,
-                                    name = itemName,
-                                    amount = itemAvailability.toIntOrNull() ?: 0,
-                                    time = 0,
-                                    tags = tags
-                                )
-                            )
+                            isDeleteDialogOpen = true
                         }
                     ) {
                         Icon(imageVector = Icons.Filled.Delete,
-                            contentDescription = "Delete",
+                            contentDescription = stringResource(R.string.item_card_delete_button),
                             tint = MaterialTheme.colorScheme.error)
                     }
                 }
@@ -114,7 +109,7 @@ fun ItemCard(
             ) {
                 Column {
                     Text(
-                        text = "На складе",
+                        text = stringResource(R.string.item_card_availability_label),
                         style = MaterialTheme.typography.bodySmall
                     )
                     Text(
@@ -124,7 +119,7 @@ fun ItemCard(
                 }
                 Column(horizontalAlignment = Alignment.End) {
                     Text(
-                        text = "Дата добавления",
+                        text = stringResource(R.string.item_card_date_added_label),
                         style = MaterialTheme.typography.bodySmall,
                         modifier = Modifier.align(Alignment.End)
                     )
@@ -135,14 +130,36 @@ fun ItemCard(
                     )
                 }
             }
+
         }
     }
+
     if (isEditDialogOpen) {
         EditAmountDialog(
             currentAmount = itemAvailability.toIntOrNull() ?: 0,
             itemId = itemId,
             onAmountChanged = onAmountChanged,
             onDismiss = { isEditDialogOpen = false }
+        )
+    }
+
+    if (isDeleteDialogOpen) {
+        DeleteItemConfirmationDialog(
+            onConfirm = {
+                onDeleteItem(
+                    Item(
+                        id = itemId,
+                        name = itemName,
+                        amount = itemAvailability.toIntOrNull() ?: 0,
+                        time = 0,
+                        tags = tags
+                    )
+                )
+                isDeleteDialogOpen = false
+            },
+            onDismiss = {
+                isDeleteDialogOpen = false
+            }
         )
     }
 }

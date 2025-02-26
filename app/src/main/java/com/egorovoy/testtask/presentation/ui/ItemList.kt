@@ -29,11 +29,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.egorovoy.testtask.R
 import com.egorovoy.testtask.presentation.main.HomeViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -54,7 +56,7 @@ fun ItemList(viewModel: HomeViewModel = hiltViewModel()) {
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            "Список товаров",
+                            stringResource(R.string.item_list_top_bar_title),
                             textAlign = TextAlign.Center,
                             color = Color.Black,
                             fontSize = 20.sp
@@ -83,9 +85,9 @@ fun ItemList(viewModel: HomeViewModel = hiltViewModel()) {
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Filled.Search,
-                        contentDescription = "Search Icon")
+                        contentDescription = stringResource(R.string.item_list_search_icon))
                 },
-                label = { Text("Поиск товаров") },
+                label = { Text(stringResource(R.string.item_list_search_hint)) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 8.dp)

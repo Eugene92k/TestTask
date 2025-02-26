@@ -1,4 +1,4 @@
-package com.egorovoy.testtask.presentation.ui.theme
+package com.egorovoy.testtask.util.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
