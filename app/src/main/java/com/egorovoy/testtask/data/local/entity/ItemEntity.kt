@@ -12,7 +12,7 @@ data class ItemEntity(
     @ColumnInfo(name = "name")
     val name: String,
     @ColumnInfo(name = "time")
-    val time: Int,
+    val time: Long,
     @ColumnInfo(name = "tags")
     val tags: String,
     @ColumnInfo(name = "amount")

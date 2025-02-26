@@ -1,10 +1,11 @@
 package com.egorovoy.testtask.domain.usecases
 
 import com.egorovoy.testtask.domain.repository.ItemRepository
+import javax.inject.Inject
 
-class GetItemByIdUseCase(
+class GetItemByIdUseCase @Inject constructor (
     private val repository: ItemRepository
 ) {
 
-    suspend operator fun invoke(itemId: Int) = repository.getItemById(itemId = itemId)
+    operator fun invoke(itemId: Int) = repository.getItemById(itemId = itemId)
 }
