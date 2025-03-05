@@ -40,7 +40,11 @@ fun EditAmountDialog(
                     horizontalArrangement = Arrangement.Center,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    IconButton(onClick = { amount-- }) {
+                    IconButton(onClick = {
+                        if (amount > 0) {
+                            amount--
+                        }
+                    }) {
                         Text(stringResource(R.string.edit_amount_dialog_button_decrease))
                     }
                     Text(
