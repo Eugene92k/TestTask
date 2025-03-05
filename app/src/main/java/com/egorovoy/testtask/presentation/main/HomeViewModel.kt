@@ -14,7 +14,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -35,8 +34,9 @@ class HomeViewModel @Inject constructor(
     val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
 
     init {
-        initializeDatabase()
-       loadItems()
+        //TODO 1 метод вызывается, если из БД ничего не приходит, закомментировал
+//        initializeDatabase()
+        loadItems()
     }
 
     fun updateAmount(itemId: Int, amount: Int) {
@@ -63,7 +63,8 @@ class HomeViewModel @Inject constructor(
     private fun loadItems() {
         viewModelScope.launch {
             _searchQuery
-                .debounce(300)
+//TODO 2 задержку поставил для наглядности (как-будто происходит какая-то долгая работа с поиском в БД)
+//                .debounce(300)
                 .collectLatest { query ->
                     if (query.isBlank()) {
                         getAllItemsUseCase().collect {

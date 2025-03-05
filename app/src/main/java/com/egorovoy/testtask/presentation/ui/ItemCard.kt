@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
@@ -26,7 +27,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.egorovoy.testtask.R
 import com.egorovoy.testtask.domain.model.Item
 
@@ -57,7 +61,10 @@ fun ItemCard(
             ) {
                 Text(
                     text = item.name,
-                    style = MaterialTheme.typography.headlineSmall
+                    style = TextStyle(
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold
+                    )
                 )
 
                 //buttons
@@ -73,18 +80,23 @@ fun ItemCard(
                             isEditDialogOpen = true
                         }
                     ) {
-                        Icon(imageVector = Icons.Filled.Edit,
+                        Icon(
+                            imageVector = Icons.Filled.Edit,
                             contentDescription = stringResource(R.string.item_card_edit_button),
-                            tint = MaterialTheme.colorScheme.surfaceTint)
+                            tint = MaterialTheme.colorScheme.surfaceTint
+                        )
                     }
                     IconButton(
                         onClick = {
                             isDeleteDialogOpen = true
-                        }
+                        },
+                        modifier = Modifier.requiredWidth(48.dp)
                     ) {
-                        Icon(imageVector = Icons.Filled.Delete,
+                        Icon(
+                            imageVector = Icons.Filled.Delete,
                             contentDescription = stringResource(R.string.item_card_delete_button),
-                            tint = MaterialTheme.colorScheme.error)
+                            tint = MaterialTheme.colorScheme.error
+                        )
                     }
                 }
             }
